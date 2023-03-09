@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<CONFIG>
+    <listaElementos>
+        <elemento>
+            <numeroAtomico>[valorNumerico]</numeroAtomico>
+            <simbolo>[valorAlfanumerico]</simbolo>
+            <nombreElemento>[valorAlfanumerico]</nombreElemento>
+        </elemento>
+        <!-- ... -->
+    </listaElementos>
+    <listaMaquinas>
+        <Maquina>
+            <nombre>[valorAlfanumerico]</nombre>
+            <numeroPines>[valorNumerico]</numeroPines>
+            <numeroElementos>[valorNumerico]</numeroElementos>
+            <pin>
+                <elementos>
+                    <elemento>[simboloDelElemento]</elemento> ... </elementos>
+            </pin> 
+            <!-- ... -->
+        </Maquina>
+        
+        <!-- ... -->
+    </listaMaquinas>
+    <listaCompuestos>
+        <compuesto>
+            <nombre>[valorAlfanumerico]</nombre>
+            <elementos>
+                <elemento>[simboloDelElemento]</elemento> 
+                <!-- ... -->
+            </elementos>
+        </compuesto> 
+        <!-- ... -->
+    </listaCompuestos>
+</CONFIG>
