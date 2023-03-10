@@ -2,34 +2,91 @@
 <CONFIG>
     <listaElementos>
         <elemento>
-            <numeroAtomico>[valorNumerico]</numeroAtomico>
-            <simbolo>[valorAlfanumerico]</simbolo>
-            <nombreElemento>[valorAlfanumerico]</nombreElemento>
+            <numeroAtomico>1</numeroAtomico>
+            <simbolo>valorAlfanumerico1</simbolo>
+            <nombreElemento>valorAlfanumerico1</nombreElemento>
+        </elemento>
+        <elemento>
+            <numeroAtomico>2</numeroAtomico>
+            <simbolo>valorAlfanumerico2</simbolo>
+            <nombreElemento>valorAlfanumerico2</nombreElemento>
         </elemento>
         <!-- ... -->
     </listaElementos>
     <listaMaquinas>
         <Maquina>
-            <nombre>[valorAlfanumerico]</nombre>
-            <numeroPines>[valorNumerico]</numeroPines>
-            <numeroElementos>[valorNumerico]</numeroElementos>
+            <nombre>[valorAlfanumerico]3</nombre>
+            <numeroPines>13</numeroPines>
+            <numeroElementos>14</numeroElementos>
             <pin>
                 <elementos>
-                    <elemento>[simboloDelElemento]</elemento> ... </elementos>
-            </pin> 
+                    <elemento>[simboloDelElemento1]</elemento>
+                    <elemento>[simboloDelElemento1.1]</elemento>
+                    <elemento>[simboloDelElemento1.2]</elemento>
+                    <elemento>[simboloDelElemento1.3]</elemento>
+                    <!-- ... -->
+                </elementos>
+            </pin>
+            <pin>
+                <elementos>
+                    <elemento>[simboloDelElemento]2</elemento>
+                    <elemento>[simboloDelElemento]2.1</elemento>
+                    <elemento>[simboloDelElemento]2.2</elemento>
+                    <elemento>[simboloDelElemento]2.3</elemento>
+                    <!-- ... -->
+                </elementos>
+            </pin>
             <!-- ... -->
         </Maquina>
-        
+        <Maquina>
+            <nombre>[valorAlfanumerico]3.1</nombre>
+            <numeroPines>23</numeroPines>
+            <numeroElementos>24</numeroElementos>
+            <pin>
+                <elementos>
+                    <elemento>[simboloDelElemento0.1]</elemento>
+                    <elemento>[simboloDelElemento0.2]</elemento>
+                    <elemento>[simboloDelElemento0.3]</elemento>
+                    <elemento>[simboloDelElemento0.4]</elemento>
+                    <!-- ... -->
+                </elementos>
+            </pin>
+            <pin>
+                <elementos>
+                    <elemento>[simboloDelElemento]0.5</elemento>
+                    <elemento>[simboloDelElemento]0.6</elemento>
+                    <elemento>[simboloDelElemento]0.7</elemento>
+                    <elemento>[simboloDelElemento]0.8</elemento>
+                    <!-- ... -->
+                </elementos>
+            </pin>
+            <!-- ... -->
+        </Maquina>
         <!-- ... -->
     </listaMaquinas>
     <listaCompuestos>
         <compuesto>
-            <nombre>[valorAlfanumerico]</nombre>
+            <nombre>[valorAlfanumerico]4</nombre>
             <elementos>
-                <elemento>[simboloDelElemento]</elemento> 
+                <elemento>[simboloDelElemento1]</elemento>
+                <elemento>[simboloDelElemento2]</elemento>
+                <elemento>[simboloDelElemento3]</elemento>
+                <elemento>[simboloDelElemento4]</elemento>
+                <elemento>[simboloDelElemento5]</elemento>
                 <!-- ... -->
             </elementos>
-        </compuesto> 
+        </compuesto>
+        <compuesto>
+            <nombre>[valorAlfanumerico]5</nombre>
+            <elementos>
+                <elemento>[simboloDelElemento1.1]</elemento>
+                <elemento>[simboloDelElemento2.1]</elemento>
+                <elemento>[simboloDelElemento3.1]</elemento>
+                <elemento>[simboloDelElemento4.1]</elemento>
+                <elemento>[simboloDelElemento5.1]</elemento>
+                <!-- ... -->
+            </elementos>
+        </compuesto>
         <!-- ... -->
     </listaCompuestos>
 </CONFIG>

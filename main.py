@@ -3,86 +3,97 @@ import random
 from tkinter import filedialog
 import sys
 from tkinter.messagebox import showerror, showinfo, showwarning
-from xml.dom import minidom
 import xml.etree.cElementTree as ET
 import graphviz
+from lista import Lista
+from elemento import Elemento
+from compuesto import Compuesto, ElementoCompuesto
+from maquina import Maquina , ElementoPin, Pin
+
+#Variables de lista
+listaElementos = Lista()
+listaMaquinas = Lista()
+listaCompuestos = Lista()
 
 def cargarArchivo():
-    # contadores para saber las cantidades
-    contadorCantidad_MaxOrganismo = 0
-    contadorMuestra = 0
-    contadorCeldaV = 0
+    #usando element tree
+    
     # abre ventana para seleccionar archivo
     urlarchivo = filedialog.askopenfilename(initialdir="./", title="Seleccione un Archivo", filetypes=(("xml", "*.xml"), ("all files", "*.*")))
     # urlarchivo = input()
     if urlarchivo != "":
-        documento = minidom.parse(urlarchivo)
-
-        # Se obtienen los datos de la lista organismos
-        organismosdoc = documento.getElementsByTagName("organismo")
-        for organismodoc in organismosdoc:
-            contadorCantidad_MaxOrganismo += 1
-            organismo_codigo = organismodoc.getElementsByTagName("codigo")[0]
-            organismo_nombre = organismodoc.getElementsByTagName("nombre")[0]
-            # print(organismo_codigo.firstChild.data)
-            # print(organismo_nombre.firstChild.data)
-            if contadorCantidad_MaxOrganismo <= 1000:
-                # enviando los parametros al objeto y enviando el objeto a la lista
-                objetoOrganismo = Organismo(str(organismo_codigo.firstChild.data).strip(), str(organismo_nombre.firstChild.data).strip())
-                colorS = "#"+''.join(random.choice('0123456789ABCDEF')for j in range(6))
-                objetoColor = Color(str(organismo_codigo.firstChild.data).strip(), str(colorS).strip(), str(organismo_nombre.firstChild.data).strip())
-                # Agregando organismo a la lista de organismos y agregando color al organismo
-                lista_Organismos.addFinalNode(objetoOrganismo)
-                lista_Colores.addFinalNode(objetoColor)
-            else:
-                showerror(
-                    title="Error", message="El tamaño maximo de organismos es: 1000 \nPorfavor ingrese menos organismos")
-                break
-
-        # Se obtienen los datos de listado muestras
-        muestrasdoc1 = documento.getElementsByTagName("muestra")
-        for muestradoc in muestrasdoc1:
-            muestra_codigo = muestradoc.getElementsByTagName("codigo")[0]
-            muestra_descripcion = muestradoc.getElementsByTagName("descripcion")[0]
-            muestra_filas = muestradoc.getElementsByTagName("filas")[0]
-            muestra_columnas = muestradoc.getElementsByTagName("columnas")[0]
-            # recorriendo la listaa de celdas vivas
-            celdasvivasdoc = muestradoc.getElementsByTagName("celdaViva")
-            lista_CeldasVivas = Lista()
-            for celdavivadoc in celdasvivasdoc:
-                celdaViva_fila = celdavivadoc.getElementsByTagName("fila")[0]
-                celdaViva_columna = celdavivadoc.getElementsByTagName("columna")[0]
-                celdaViva_codigoOrganismo = celdavivadoc.getElementsByTagName("codigoOrganismo")[
-                    0]
-                # .......enviando los parametros al objeto y enviando el objeto a la lista
-                objetoCeldaViva = CeldaViva(str(celdaViva_fila.firstChild.data).strip(), str(celdaViva_columna.firstChild.data).strip(), str(celdaViva_codigoOrganismo.firstChild.data).strip())
-                # Agregando celda viva a la lista de celdas vivas
-                if ((int(celdaViva_fila.firstChild.data) <= int(muestra_filas.firstChild.data)) and (int(celdaViva_fila.firstChild.data) > 0) and (int(celdaViva_columna.firstChild.data) <= int(muestra_columnas.firstChild.data)) and (int(celdaViva_columna.firstChild.data) > 0 )):
-                    lista_CeldasVivas.addFinalNode(objetoCeldaViva)
-                    contadorCeldaV = contadorCeldaV + 1
-                else:
-                    showerror(title="Error", message="La celda Viva debe estar dentro del valor máximo de:\nfilas: 10000\ncolumnas: 10000 \n El codigo del organismo de la celda viva con el dato de la fila o columna que supera el máximo es:\n" + str(celdaViva_codigoOrganismo.firstChild.data))
-                    break
-
-            if ((int(muestra_filas.firstChild.data) <= 10000) and (int(muestra_columnas.firstChild.data) <= 10000)):
-                # enviando los parametros al objeto y enviando el objeto a la lista
-                objetoMuestra = Muestra(str(muestra_codigo.firstChild.data).strip(), str(muestra_descripcion.firstChild.data).strip(), str(
-                    muestra_filas.firstChild.data).strip(), str(muestra_columnas.firstChild.data).strip(), lista_CeldasVivas)
-                # Agregando muestra a la lista de muestras
-                lista_Muestras.addFinalNode(objetoMuestra)
-                contadorMuestra += 1
-            else:
-                showerror(title="Error", message="La muestra solo puede tener como máximo:\nfilas: 10000\ncolumnas: 10000\nEl codigo de la muestra con el dato de la fila o columna que supera el máximo es:\n" + str(muestra_codigo.firstChild.data))
-                break
-
+        documento = ET.parse(urlarchivo)
+        #Obtiene la raíz CONFIG
+        root = documento.getroot() 
+        #dentro de la raíz recorre los hijos
+        for elemento in root: 
+            if elemento.tag == "listaElementos":
+                for elemento1 in elemento:
+                    if elemento1.tag == "elemento":
+                        for elemento2 in elemento1:
+                            if elemento2.tag == "numeroAtomico":
+                                elemento_numeroAtomico = elemento2.text
+                            elif elemento2.tag == "simbolo":
+                                elemento_simbolo = elemento2.text
+                            elif elemento2.tag == "nombreElemento":
+                                elemento_nombreElemento = elemento2.text
+                        #Aca se envia al objeto listaElementos elemento
+                        objetoElemento = Elemento(int(elemento_numeroAtomico), str(elemento_simbolo),str(elemento_nombreElemento))
+                        #enviando objeto a la lista
+                        listaElementos.insertarFinal(objetoElemento)
+            elif elemento.tag == "listaMaquinas":
+                for maquina in elemento:
+                    if maquina.tag == "Maquina":
+                        liPinMaquina = Lista()
+                        for maquinaDatos in maquina:
+                            if maquinaDatos.tag == "nombre":
+                                maquinaDatos_nombre = maquinaDatos.text
+                            elif maquinaDatos.tag == "numeroPines":
+                                maquinaDatos_numeroPines = maquinaDatos.text
+                            elif maquinaDatos.tag == "numeroElementos":
+                                maquinaDatos_numeroElementos = maquinaDatos.text
+                            elif maquinaDatos.tag == "pin":
+                                for elementos in maquinaDatos:
+                                    if elementos.tag == "elementos":
+                                        listaelementoPin = Lista()
+                                        for elementos1 in elementos:
+                                            if elementos1.tag == "elemento":
+                                                pin_simboloElemento = elementos1.text
+                                            ObjetoelementoPin = ElementoPin(pin_simboloElemento)
+                                            listaelementoPin.insertarFinal(ObjetoelementoPin)
+                                ObjetoPinMaquina = Pin(listaelementoPin)
+                                liPinMaquina.insertarFinal(ObjetoPinMaquina)
+                        #aca se guarda la lista maquinas 
+                        objetoMaquina = Maquina(str(maquinaDatos_nombre),int(maquinaDatos_numeroPines), int(maquinaDatos_numeroElementos), liPinMaquina)  
+                        listaMaquinas.insertarFinal(objetoMaquina)                        
+            elif elemento.tag == "listaCompuestos":
+                for compuestos in elemento:
+                    if compuestos.tag == "compuesto":
+                        for compuestosDatos in compuestos:
+                            if compuestosDatos.tag == "nombre":
+                                compuesto_nombre = compuestosDatos.text
+                            elif compuestosDatos.tag == "elementos":
+                                liElementosCompuesto = Lista()
+                                for compuestoDElemento in compuestosDatos:
+                                    if compuestoDElemento.tag == "elemento":
+                                        compuesto_elemento = compuestoDElemento.text
+                                    objetoElementoCompuesto = ElementoCompuesto(compuesto_elemento)
+                                    liElementosCompuesto.insertarFinal(objetoElementoCompuesto)
+                        #objeto
+                        objetoCompuesto = Compuesto(str(compuesto_nombre),liElementosCompuesto)
+                        listaCompuestos.insertarFinal(objetoCompuesto)
         showinfo(title="Guardado", message="Archivo leído exitosamente")
         # imprimiendo datos
-        # lista_Organismos.printList()
-        # crear otro metodo imprimir para la lista de muestras
-        # lista_Muestras.printList()
+        #print("Lista de elementos")
+        #print("numeroAtomico    |simbolo    |nombreElemento")
+        #listaElementos.imprimirElementos()
+        #print("Lista de Compuestos")
+        #listaCompuestos.imprimirCompuesto()
+        #print("Lista de maquinas")
+        #listaMaquinas.imprimirMaquinas()
     else :
         print("canceló la opción\n")
 
 
 if __name__ == '__main__':
-    print("Iniciando")
+    cargarArchivo()
