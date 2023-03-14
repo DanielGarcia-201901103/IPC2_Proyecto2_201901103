@@ -15,7 +15,7 @@ class Lista:
             self.ultimo.siguiente = nuevoNodo
             self.ultimo = nuevoNodo
     #METODO PARA DEJAR LA LISTA VACIA
-    def eliminarLista(self):
+    def inicializarLista(self):
         self.primero = None
         self.ultimo = None
     #METODO PARA VALIDAR SI LA LISTA ESTÁ VACIA
@@ -28,14 +28,34 @@ class Lista:
             return False
     #METODOS PARA REALIZAR IMPRESIONES
         #IMPRIMIR LISTA ELEMENTOS
-    def imprimirElementos(self):
+    def ObtenerElementos(self, recibiendoCONT):
         contador = 0
         nodoTemporal = Nodo("")
         nodoTemporal = self.primero
         while nodoTemporal != None:
             contador +=1
-            print(str(nodoTemporal.dato.getElementoNumAtomico() )+"    |"+ nodoTemporal.dato.getElementoSimbolo() +"    |" + nodoTemporal.dato.getElementoNombreElemento())
-            nodoTemporal = nodoTemporal.siguiente    
+            if contador == recibiendoCONT:
+                return nodoTemporal.dato
+            #print(str(nodoTemporal.dato.getElementoNumAtomico() )+"    |"+ nodoTemporal.dato.getElementoSimbolo() +"    |" + nodoTemporal.dato.getElementoNombreElemento())
+            nodoTemporal = nodoTemporal.siguiente 
+
+    def obtenerSize(self):
+        return self.size   
+
+    def validarRepetidos(self, numeroAtomico_1, simbolo_1, nombre_1):
+        nodoTemporal = Nodo("")
+        nodoTemporal = self.primero
+        booleanoValidador = False
+        while nodoTemporal != None:
+            if (str(nodoTemporal.dato.getElementoNumAtomico()) == str(numeroAtomico_1)):
+                booleanoValidador = True
+            if(nodoTemporal.dato.getElementoSimbolo().strip() == simbolo_1.strip()):
+                booleanoValidador = True
+            if(nodoTemporal.dato.getElementoNombreElemento().strip() == nombre_1.strip()):
+                booleanoValidador = True
+            nodoTemporal = nodoTemporal.siguiente  
+        return booleanoValidador 
+
     #
         #IMPRIMIR LISTA MAQUINAS
     def imprimirMaquinas(self):

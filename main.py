@@ -1,6 +1,6 @@
 import sys
 import tkinter as tk
-from tkinter import CENTER, RIGHT, Y, Scrollbar, filedialog, Tk, ttk
+from tkinter import CENTER, RIGHT, Y, Scrollbar, filedialog, Tk, ttk, Frame, END
 from tkinter.messagebox import showerror, showinfo, showwarning
 import xml.etree.cElementTree as ET
 import graphviz
@@ -37,7 +37,7 @@ def cargarArchivo():
                             elif elemento2.tag == "nombreElemento":
                                 elemento_nombreElemento = elemento2.text
                         #Aca se envia al objeto listaElementos elemento
-                        objetoElemento = Elemento(int(elemento_numeroAtomico), str(elemento_simbolo),str(elemento_nombreElemento))
+                        objetoElemento = Elemento(int(elemento_numeroAtomico), str(elemento_simbolo).strip(),str(elemento_nombreElemento).strip())
                         #enviando objeto a la lista
                         listaElementos.insertarFinal(objetoElemento)
             elif elemento.tag == "listaMaquinas":
@@ -58,12 +58,12 @@ def cargarArchivo():
                                         for elementos1 in elementos:
                                             if elementos1.tag == "elemento":
                                                 pin_simboloElemento = elementos1.text
-                                            ObjetoelementoPin = ElementoPin(pin_simboloElemento)
+                                            ObjetoelementoPin = ElementoPin(str(pin_simboloElemento).strip())
                                             listaelementoPin.insertarFinal(ObjetoelementoPin)
                                 ObjetoPinMaquina = Pin(listaelementoPin)
                                 liPinMaquina.insertarFinal(ObjetoPinMaquina)
                         #aca se guarda la lista maquinas 
-                        objetoMaquina = Maquina(str(maquinaDatos_nombre),int(maquinaDatos_numeroPines), int(maquinaDatos_numeroElementos), liPinMaquina)  
+                        objetoMaquina = Maquina(str(maquinaDatos_nombre).strip(),int(maquinaDatos_numeroPines), int(maquinaDatos_numeroElementos), liPinMaquina)  
                         listaMaquinas.insertarFinal(objetoMaquina)                        
             elif elemento.tag == "listaCompuestos":
                 for compuestos in elemento:
@@ -76,10 +76,10 @@ def cargarArchivo():
                                 for compuestoDElemento in compuestosDatos:
                                     if compuestoDElemento.tag == "elemento":
                                         compuesto_elemento = compuestoDElemento.text
-                                    objetoElementoCompuesto = ElementoCompuesto(compuesto_elemento)
+                                    objetoElementoCompuesto = ElementoCompuesto(str(compuesto_elemento).strip())
                                     liElementosCompuesto.insertarFinal(objetoElementoCompuesto)
                         #objeto
-                        objetoCompuesto = Compuesto(str(compuesto_nombre),liElementosCompuesto)
+                        objetoCompuesto = Compuesto(str(compuesto_nombre).strip(),liElementosCompuesto)
                         listaCompuestos.insertarFinal(objetoCompuesto)
         showinfo(title="Guardado", message="Archivo leído exitosamente")
         # imprimiendo datos
@@ -97,8 +97,11 @@ def guardarArchivo():
     pass
 
 def inicializacion():
-    pass
-
+    listaElementos.inicializarLista()
+    listaMaquinas.inicializarLista()
+    listaCompuestos.inicializarLista()
+# en gestionar elemento ya funciona solo hay que hacer algunos cambios como: agregar boton para actualizar listado 
+# crear un metodo para ordenamiento de datos o crear un metodo de agregar y ordenar al insertar
 def gestionarElemento():
     '''
     a. Ver listado de elementos químicos ordenado por número atómico
@@ -108,9 +111,49 @@ def gestionarElemento():
     menu.withdraw()  # cierra la ventana principal
     gestionar_El = tk.Toplevel()
     gestionar_El.title("Gestionar Elementos Quimicos")
+    gestionar_El.config(bg= "lightgreen")
     gestionar_El.geometry("600x545")
-    gestionar_El.configure(bg="lightgreen")
     gestionar_El.resizable(False, False)
+
+    style = ttk.Style()
+    style.theme_use("default")
+    style.configure("Treeview", background="silver",foreground="black", rowheight=25, fieldbackground="silver")
+    style.map("Treeview", background=[("selected", "green")])
+
+    scroll_bar = Scrollbar(gestionar_El)
+    scroll_bar.pack(side=RIGHT, fill=Y)
+
+    tablaDinamica = ttk.Treeview(gestionar_El, yscrollcommand=scroll_bar.set, columns=("col1", "col2", "col3"))
+    scroll_bar.config(command=tablaDinamica.yview)
+    tablaDinamica.column("#0", width=20)
+    tablaDinamica.column("col1", width=120, anchor=CENTER)
+    tablaDinamica.column("col2", width=80, anchor=CENTER)
+    tablaDinamica.column("col3", width=120, anchor=CENTER)
+
+    tablaDinamica.heading("#0", text="No.", anchor=CENTER)
+    tablaDinamica.heading("col1", text="Número Atómico", anchor=CENTER)
+    tablaDinamica.heading("col2", text="Simbolo", anchor=CENTER)
+    tablaDinamica.heading("col3", text="Nombre Elemento", anchor=CENTER)
+    # agregando estilo a las filas
+    tablaDinamica.tag_configure("oddrow", background="white")
+    tablaDinamica.tag_configure("evenrow", background="lightblue")
+
+    # AGREGANDO LISTA DE OBJETOS A LA TABLA DE ACUERDO AL TAMAÑO DE LA LISTA.
+    iterador = 1
+    while iterador <= listaElementos.obtenerSize():
+        auxiliarListaElementos =listaElementos.ObtenerElementos(iterador)
+        numAtomEl = auxiliarListaElementos.getElementoNumAtomico()
+        simboloEl = auxiliarListaElementos.getElementoSimbolo()
+        nomEl = auxiliarListaElementos.getElementoNombreElemento()
+        if iterador % 2 == 0:
+            tablaDinamica.insert("", tk.END, text= str(iterador), values=(str(numAtomEl), simboloEl, nomEl), tags=("evenrow",))
+        else:
+            tablaDinamica.insert("", tk.END, text = str(iterador), values=(str(numAtomEl), simboloEl, nomEl), tags=("oddrow",))
+        
+        iterador +=1
+
+    tablaDinamica.place(x = 20 , y = 20 , width= 545, height= 310 )
+
     tk.Label(gestionar_El, text="Nuevo elemento quimico", bg="#000000", fg="#FFFFFF",width= 40, font=("Arial", 13)).place(x= 0, y= 350)
     tk.Label(gestionar_El, text="", bg="#000000", fg="#FFFFFF",width= 40, font=("Arial", 13)).place(x= 0, y= 520)
     tk.Label(gestionar_El, text="", bg="#000000", fg="#FFFFFF",height= 10,width= 2, font=("Arial", 13)).place(x= 360, y= 350)
@@ -128,38 +171,28 @@ def gestionarElemento():
     entrada_Nombre = ttk.Entry(gestionar_El, textvariable = entradaNombre, width=30).place(x=160, y=450)
     
     def regresarGestionarEaMenu():
-        gestionar_El.withdraw()
-        menu.iconify()
-        menu.deiconify()
+            gestionar_El.withdraw()
+            menu.iconify()
+            menu.deiconify()
 
     def agregarElementoQ():
-        codigo_1 = str(entradaNumAtomico.get())
-        nombre_1 = str(entradaSimbolo.get())
-        prerrequisitos_1 = str(entradaNombre.get())
-        '''if (len(codigo_1) <= 4 and len(codigo_1) >= 1) & (obligatorio_1 =="0" or obligatorio_1 == "1") & (estado_1 == "0" or estado_1 == "1" or estado_1 == "-1"):
-                cambio = False
-                for j in objetos:
-                    codi_1 = j.codigo
-                    if codigo_1 == codi_1:
-                        cambio = True
-                        showinfo(title="Existente",message="El curso ya existe")
-                        break
-                    else:
-                        continue
-                if cambio == False:
-                    segundo = PensumEstudios(
-                        codigo_1, nombre_1, prerrequisitos_1, obligatorio_1, semestre_1, credito_1, estado_1)
-                    objetos.append(segundo)
-                    showinfo(title="Agregar", message="Curso guardado")
-                else:
-                    pass
-            elif (len(codigo_1) > 4 or len(codigo_1) < 1) or (obligatorio_1 !="0" or obligatorio_1 != "1") or (estado_1 != "0" or estado_1 != "1" or estado_1 != "-1"):
-                showerror(title="Agregar",message="Por favor ingrese los datos correctamente")
-            else:
-                pass'''
-    
+        numeroAtomico_1 = str(entradaNumAtomico.get())
+        simbolo_1 = str(entradaSimbolo.get())
+        nombre_1 = str(entradaNombre.get())
+
+        #obteniendo datos y compararlos con los datos ingresados por el usuario 
+        bolleanoElementosRepetidos = listaElementos.validarRepetidos(int(numeroAtomico_1), simbolo_1.strip(), nombre_1.strip())
+        
+        #si los datos ingresados son iguales a los que existen en la tabla entonces indicar un mensaje de no ingresar datos repetidos
+        if bolleanoElementosRepetidos == True:
+            showerror(title="No es aceptado", message="Por favor no introduzca datos que ya existan en la tabla.")
+        elif bolleanoElementosRepetidos == False:
+            auxObjetoElemento = Elemento(int(numeroAtomico_1), simbolo_1 , nombre_1 )
+            listaElementos.insertarFinal(auxObjetoElemento)
+            showinfo(title="Guardado", message="Datos almacenados correctamente")
+        
     tk.Button(gestionar_El, text="Agregar", width=15, anchor="c", bg="orange", fg="black", font=("Arial Black", 10), command=lambda: agregarElementoQ()).place(x=160, y=485)
-    tk.Button(gestionar_El, text="Regresar", width=15, anchor="c", bg="red", fg="black", font=("Arial Black", 10), command=lambda: regresarGestionarEaMenu()).place(x=430, y=500)
+    tk.Button(gestionar_El, text="Regresar", width=15, anchor="c", bg="red", fg="black", font=("Arial Black", 10), command=lambda: regresarGestionarEaMenu()).place(x=430, y=450)
     
     gestionar_El.mainloop()
 
