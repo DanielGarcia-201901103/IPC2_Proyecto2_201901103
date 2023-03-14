@@ -108,17 +108,59 @@ def gestionarElemento():
     menu.withdraw()  # cierra la ventana principal
     gestionar_El = tk.Toplevel()
     gestionar_El.title("Gestionar Elementos Quimicos")
-    gestionar_El.geometry("500x300")
+    gestionar_El.geometry("600x545")
     gestionar_El.configure(bg="lightgreen")
     gestionar_El.resizable(False, False)
+    tk.Label(gestionar_El, text="Nuevo elemento quimico", bg="#000000", fg="#FFFFFF",width= 40, font=("Arial", 13)).place(x= 0, y= 350)
+    tk.Label(gestionar_El, text="", bg="#000000", fg="#FFFFFF",width= 40, font=("Arial", 13)).place(x= 0, y= 520)
+    tk.Label(gestionar_El, text="", bg="#000000", fg="#FFFFFF",height= 10,width= 2, font=("Arial", 13)).place(x= 360, y= 350)
+    tk.Label(gestionar_El, text="", bg="#000000", fg="#FFFFFF",height= 10,width= 2, font=("Arial", 13)).place(x= 0, y= 350)
+    tk.Label(gestionar_El, text="Número Atómico:", bg="lightgreen", fg="black", font=("Calibri", 13)).place(x=30, y=390)
+    tk.Label(gestionar_El, text="Símbolo:", bg="lightgreen", fg="black", font=("Calibri", 13)).place(x=30, y=420)
+    tk.Label(gestionar_El, text="Nombre:", bg="lightgreen", fg="black", font=("Calibri", 13)).place(x=30, y=450)
 
+    #CUADROS DE ENTRADA DE TEXTO
+    entradaNumAtomico = tk.StringVar()
+    entrada_NumAtomico = ttk.Entry(gestionar_El, textvariable = entradaNumAtomico, width=30).place(x=160, y=390)
+    entradaSimbolo= tk.StringVar()
+    entrada_Simbolo = ttk.Entry(gestionar_El, textvariable = entradaSimbolo, width=30).place(x=160, y=420)
+    entradaNombre = tk.StringVar()
+    entrada_Nombre = ttk.Entry(gestionar_El, textvariable = entradaNombre, width=30).place(x=160, y=450)
+    
     def regresarGestionarEaMenu():
-            gestionar_El.withdraw()
-            menu.iconify()
-            menu.deiconify()
+        gestionar_El.withdraw()
+        menu.iconify()
+        menu.deiconify()
 
-    tk.Button(gestionar_El, text="Regresar", width=15, anchor="c", bg="orange", fg="black", font=(
-            "Arial Black", 10), command=lambda: regresarGestionarEaMenu()).place(x=300, y=200)
+    def agregarElementoQ():
+        codigo_1 = str(entradaNumAtomico.get())
+        nombre_1 = str(entradaSimbolo.get())
+        prerrequisitos_1 = str(entradaNombre.get())
+        '''if (len(codigo_1) <= 4 and len(codigo_1) >= 1) & (obligatorio_1 =="0" or obligatorio_1 == "1") & (estado_1 == "0" or estado_1 == "1" or estado_1 == "-1"):
+                cambio = False
+                for j in objetos:
+                    codi_1 = j.codigo
+                    if codigo_1 == codi_1:
+                        cambio = True
+                        showinfo(title="Existente",message="El curso ya existe")
+                        break
+                    else:
+                        continue
+                if cambio == False:
+                    segundo = PensumEstudios(
+                        codigo_1, nombre_1, prerrequisitos_1, obligatorio_1, semestre_1, credito_1, estado_1)
+                    objetos.append(segundo)
+                    showinfo(title="Agregar", message="Curso guardado")
+                else:
+                    pass
+            elif (len(codigo_1) > 4 or len(codigo_1) < 1) or (obligatorio_1 !="0" or obligatorio_1 != "1") or (estado_1 != "0" or estado_1 != "1" or estado_1 != "-1"):
+                showerror(title="Agregar",message="Por favor ingrese los datos correctamente")
+            else:
+                pass'''
+    
+    tk.Button(gestionar_El, text="Agregar", width=15, anchor="c", bg="orange", fg="black", font=("Arial Black", 10), command=lambda: agregarElementoQ()).place(x=160, y=485)
+    tk.Button(gestionar_El, text="Regresar", width=15, anchor="c", bg="red", fg="black", font=("Arial Black", 10), command=lambda: regresarGestionarEaMenu()).place(x=430, y=500)
+    
     gestionar_El.mainloop()
 
 def gestionarCompuesto():
@@ -141,7 +183,7 @@ def gestionarCompuesto():
             gestionar_Comp.withdraw()
             menu.iconify()
             menu.deiconify()
-
+    
     tk.Button(gestionar_Comp, text="Regresar", width=15, anchor="c", bg="orange", fg="black", font=(
             "Arial Black", 10), command=lambda: regresarGestionarCaMenu()).place(x=300, y=200)
     gestionar_Comp.mainloop()
