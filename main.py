@@ -13,7 +13,9 @@ import webbrowser
 listaElementos = Lista()
 listaMaquinas = Lista()
 listaCompuestos = Lista()
-
+'''
+HACER VALIDACIONES PARA QUE LAS OPCIONES NO FUNCIONEN SI NO EXISTEN DATOS CARGADOS
+'''
 def cargarArchivo():
     #usando element tree
     
@@ -91,6 +93,7 @@ def cargarArchivo():
         #print("Lista de maquinas")
         #listaMaquinas.imprimirMaquinas()
         listaElementos.ordenamientoBurbuja()
+        listaCompuestos.ordenamientoBurbujaCompuesto()
     else :
         print("canceló la opción\n")
 
@@ -101,14 +104,8 @@ def inicializacion():
     listaElementos.inicializarLista()
     listaMaquinas.inicializarLista()
     listaCompuestos.inicializarLista()
-# en gestionar elemento ya funciona solo hay que hacer algunos cambios como: agregar boton para actualizar listado 
-# crear un metodo para ordenamiento de datos o crear un metodo de agregar y ordenar al insertar
+
 def gestionarElemento():
-    '''
-    a. Ver listado de elementos químicos ordenado por número atómico
-    b. Agregar un nuevo elemento químico (no deben haber elementos químicos con
-        el mismo número atómico, el mismo símbolo o el mismo nombre)
-    '''
     menu.withdraw()  # cierra la ventana principal
     gestionar_El = tk.Toplevel()
     gestionar_El.title("Gestionar Elementos Quimicos")
@@ -210,17 +207,86 @@ def gestionarCompuesto():
     menu.withdraw()  # cierra la ventana principal
     gestionar_Comp = tk.Toplevel()
     gestionar_Comp.title("Gestionar Compuestos")
-    gestionar_Comp.geometry("500x300")
+    gestionar_Comp.geometry("800x545")
     gestionar_Comp.configure(bg="lightgreen")
-    gestionar_Comp.resizable(False, False)
+    gestionar_Comp.resizable(True, False)
 
+    style1 = ttk.Style()
+    style1.theme_use("default")
+    style1.configure("Treeview", background="silver",foreground="black", rowheight=25, fieldbackground="silver")
+    style1.map("Treeview", background=[("selected", "green")])
+
+    scroll_bar1 = Scrollbar(gestionar_Comp)
+    scroll_bar1.pack(side=RIGHT, fill=Y)
+    #hacer que la tabla tenga la cantidad de columnas de acuerdo al compuesto con mas elementos en la lista
+    #Agregar cada columna con un elemento y la primer columna tendra solo el nombre del compuesto
+    
+    tama = listaCompuestos.obtenerTamañoPrimero()
+    i = 1
+    listaauxiliar = []
+    while i <= int(tama):
+        cadenaCOlumna = "col" + str(i)
+        listaauxiliar.append(cadenaCOlumna)
+        i +=1
+
+    columnas = tuple(listaauxiliar)
+    tablaDinamica1 = ttk.Treeview(gestionar_Comp, yscrollcommand=scroll_bar1.set, columns= columnas)
+    scroll_bar1.config(command=tablaDinamica1.yview)
+
+    tablaDinamica1.column("#0", width=100)
+    tablaDinamica1.heading("#0", text="Compuesto", anchor=CENTER)
+    aumenta = 1
+    for ii in columnas:
+        tablaDinamica1.column(ii, width=80, anchor=CENTER)
+        tablaDinamica1.heading(ii, text="elemento "+ str(aumenta), anchor=CENTER)
+        aumenta +=1
+        
+    # agregando estilo a las filas
+    tablaDinamica1.tag_configure("oddrow", background="white")
+    tablaDinamica1.tag_configure("evenrow", background="lightblue")
+
+    # AGREGANDO LISTA DE OBJETOS A LA TABLA DE ACUERDO AL TAMAÑO DE LA LISTA.
+    iterador1 = 1
+    while iterador1 <= listaCompuestos.obtenerSize():
+        #se almacena en un dato auxiliar la l
+        auxiliarListadatosCompuesto = listaCompuestos.ObtenerCompuestos(iterador1)
+        auxiliarListadatosCompuesto.nombreCompuesto
+        auxiLista = auxiliarListadatosCompuesto.listaElementosCompuesto
+        iterador11 = 1
+        listaauxiliar1 = []
+        while iterador11 <= auxiLista.obtenerSize():
+            elementoObtenido = auxiLista.ObtenerCompuestos(iterador11)
+            listaauxiliar1.append(str(elementoObtenido.compuestoSimboloElemento))
+            iterador11 += 1
+        auxiliarColumna = tuple(listaauxiliar1)
+        if iterador1 % 2 == 0:
+            tablaDinamica1.insert("", tk.END, text= str(auxiliarListadatosCompuesto.nombreCompuesto), values=auxiliarColumna, tags=("evenrow",))
+        else:
+            tablaDinamica1.insert("", tk.END, text = str(auxiliarListadatosCompuesto.nombreCompuesto), values=auxiliarColumna, tags=("oddrow",))
+        iterador1 += 1
+    '''
+    iterador = 1
+    while iterador <= listaElementos.obtenerSize():
+        auxiliarListaElementos =listaElementos.ObtenerElementos(iterador)
+        numAtomEl = auxiliarListaElementos.getElementoNumAtomico()
+        simboloEl = auxiliarListaElementos.getElementoSimbolo()
+        nomEl = auxiliarListaElementos.getElementoNombreElemento()
+        if iterador % 2 == 0:
+            tablaDinamica1.insert("", tk.END, text= str(iterador), values=(str(numAtomEl), simboloEl, nomEl), tags=("evenrow",))
+        else:
+            tablaDinamica1.insert("", tk.END, text = str(iterador), values=(str(numAtomEl), simboloEl, nomEl), tags=("oddrow",))
+        
+        iterador +=1
+    '''
+    tablaDinamica1.pack()
+    #tablaDinamica1.place(x = 20 , y = 20 , width= 545, height= 310 )
     def regresarGestionarCaMenu():
             gestionar_Comp.withdraw()
             menu.iconify()
             menu.deiconify()
     
-    tk.Button(gestionar_Comp, text="Regresar", width=15, anchor="c", bg="orange", fg="black", font=(
-            "Arial Black", 10), command=lambda: regresarGestionarCaMenu()).place(x=300, y=200)
+    tk.Button(gestionar_Comp, text="Regresar", width=15, anchor="c", bg="red", fg="black", font=(
+            "Arial Black", 10), command=lambda: regresarGestionarCaMenu()).place(x=430, y=450)
     gestionar_Comp.mainloop()
 
 def gestionarMaquinas():

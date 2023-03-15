@@ -23,22 +23,9 @@ class Lista:
             #el apuntador ultimo apunta al nuevo nodo
             self.ultimo = nuevoNodo
 
-    def ordenamientoBurbuja(self):
-        actual = self.primero
-        aux = self.primero
-        #si la lista está vacía agrega el dato a la lista
-        if actual.siguiente != None and aux != None:
-            i = self.primero
-            while i != None:
-                j = i.siguiente
-                while j != None:
-                    if i.dato.getElementoNumAtomico() > j.dato.getElementoNumAtomico():
-                        temporal = i.dato
-                        i.dato = j.dato
-                        j.dato = temporal
-                    j = j.siguiente
-                i = i.siguiente
-        
+    def obtenerSize(self):
+        return self.size   
+
     #METODO PARA DEJAR LA LISTA VACIA
     def inicializarLista(self):
         self.primero = None
@@ -51,8 +38,9 @@ class Lista:
         #Si el primero es igual a nulo Si está vacia
         if self.primero ==None:
             return False
-    #METODOS PARA REALIZAR IMPRESIONES
-        #IMPRIMIR LISTA ELEMENTOS
+    
+    
+    #METODOS PARA LISTA ELEMENTOS    
     def ObtenerElementos(self, recibiendoCONT):
         contador = 0
         nodoTemporal = Nodo("")
@@ -63,10 +51,6 @@ class Lista:
                 return nodoTemporal.dato
             #print(str(nodoTemporal.dato.getElementoNumAtomico() )+"    |"+ nodoTemporal.dato.getElementoSimbolo() +"    |" + nodoTemporal.dato.getElementoNombreElemento())
             nodoTemporal = nodoTemporal.siguiente 
-
-    def obtenerSize(self):
-        return self.size   
-
     def validarRepetidos(self, numeroAtomico_1, simbolo_1, nombre_1):
         nodoTemporal = Nodo("")
         nodoTemporal = self.primero
@@ -80,8 +64,31 @@ class Lista:
                 booleanoValidador = True
             nodoTemporal = nodoTemporal.siguiente  
         return booleanoValidador 
+    def ordenamientoBurbuja(self):
+        #las variables hacen referencia al primer elemento de la lista
+        actual = self.primero 
+        aux = self.primero
+        #si la lista está vacía agrega el dato a la lista
+        if actual.siguiente != None and aux != None:
+            #obtiene el primer dato de la lista
+            i = self.primero
+            while i != None:
+                #obtiene el dato siguiente de la lista
+                j = i.siguiente
+                while j != None:
+                    #compara los datos para saber cual es el mayor
+                    if i.dato.getElementoNumAtomico() > j.dato.getElementoNumAtomico():
+                        #cambia el orden de los datos
+                        temporal = i.dato
+                        i.dato = j.dato
+                        j.dato = temporal
+                    #pasa al siguiente dato de la lista
+                    j = j.siguiente
+                #pasa al siguiente dato de la lista
+                i = i.siguiente
 
-    #
+    
+    #METODOS PARA LISTA MAQUINAS
         #IMPRIMIR LISTA MAQUINAS
     def imprimirMaquinas(self):
         contador = 0
@@ -110,14 +117,25 @@ class Lista:
         while nodoTemporal != None:
             print(nodoTemporal.dato.elementoSimbolo)
             nodoTemporal = nodoTemporal.siguiente      
-    #
-        #IMPRIMIR LISTA COMPUESTOS
-    def imprimirCompuesto(self):
+    
+    
+    #METODOS PARA LISTA COMPUESTOS
+        #Obtener Lista Compuestos
+    def ObtenerCompuestos(self, recibiendoCont):
         contador = 0
         nodoTemporal = Nodo("")
         nodoTemporal = self.primero
         while nodoTemporal != None:
             contador +=1
+            if contador == recibiendoCont:
+                return nodoTemporal.dato
+            #print(str(nodoTemporal.dato.getElementoNumAtomico() )+"    |"+ nodoTemporal.dato.getElementoSimbolo() +"    |" + nodoTemporal.dato.getElementoNombreElemento())
+            nodoTemporal = nodoTemporal.siguiente
+        #IMPRIMIR LISTA COMPUESTOS
+    def imprimirCompuesto(self):
+        nodoTemporal = Nodo("")
+        nodoTemporal = self.primero
+        while nodoTemporal != None:
             auxiliar =nodoTemporal.dato.listaElementosCompuesto
             print(nodoTemporal.dato.nombreCompuesto)
             auxiliar.imprimirCompuestoElementos()
@@ -128,59 +146,35 @@ class Lista:
         while nodoTemporal != None:
             print(nodoTemporal.dato.compuestoSimboloElemento)
             nodoTemporal = nodoTemporal.siguiente
-
-
-
-'''
-
-
-#METODO PARA EL ORDENAMIENTO BURBUJA DE PATRONES
-    def ordenamiento(self):
-        actual = self.cabeza
-        aux = self.cabeza
+    #hacer metodo para obtener el tamaño del elemento mas grande que es el primero de la lista
+    def obtenerTamañoPrimero(self):
+        nodoTemporal = Nodo("")
+        nodoTemporal = self.primero
+        if nodoTemporal != None:
+            auxiliar =nodoTemporal.dato.listaElementosCompuesto
+            return auxiliar.obtenerSize()
+    #ordenando compuestos por medio del tamaño de elementos de cada compuesto
+    def ordenamientoBurbujaCompuesto(self):
+        #las variables hacen referencia al primer elemento de la lista
+        actual = self.primero 
+        aux = self.primero
+        #si la lista está vacía agrega el dato a la lista
         if actual.siguiente != None and aux != None:
-            i = self.cabeza
+            #obtiene el primer dato de la lista
+            i = self.primero
             while i != None:
+                #obtiene el dato siguiente de la lista
                 j = i.siguiente
                 while j != None:
-                    if(int(ord(i.codigo[0].upper())) > int(ord(j.codigo[0].upper()))):
-                        temporal1 = i.codigo
-                        temporal2 = i.listaceldas
-                        i.codigo = j.codigo
-                        i.listaceldas = j.listaceldas
-                        j.codigo = temporal1
-                        j.listaceldas = temporal2
-                    j =j.siguiente
-                i = i.siguiente
-
- #METODO PARA ORDENAR LA LISTA EN ORDEN ALFABETICO POR MEDIO DEL ORDENAMIENTO BURBUJA
-    def ordenamiento(self):
-        actual = self.cabeza
-        aux = self.cabeza
-        if actual.siguiente != None and aux != None:
-            i = self.cabeza
-            while i != None:
-                j = i.siguiente
-                while(j != None):
-                    if int(ord(i.nombre[0].upper())) > int(ord(j.nombre[0].upper())):
-                        temporal1 = i.nombre
-                        temporal2 = i.fila
-                        temporal3 = i.columna
-                        temporal4 = i.costointercambiar
-                        temporal5 = i.costovoltear
-                        temporal6 = i.listapatrones
-                        i.nombre = j.nombre
-                        i.fila = j.fila
-                        i.columna = j.columna
-                        i.costointercambiar = j.costointercambiar
-                        i.costovoltear = j.costovoltear
-                        i.listapatrones = j.listapatrones
-                        j.nombre = temporal1
-                        j.fila = temporal2
-                        j.columna = temporal3
-                        j.costointercambiar = temporal4
-                        j.costovoltear = temporal5
-                        j.listapatrones = temporal6
+                    #compara los datos para saber cual es el mayor
+                    i1 =i.dato.listaElementosCompuesto
+                    j1 = j.dato.listaElementosCompuesto
+                    if i1.obtenerSize() < j1.obtenerSize():
+                        #cambia el orden de los datos
+                        temporal = i.dato
+                        i.dato = j.dato
+                        j.dato = temporal
+                    #pasa al siguiente dato de la lista
                     j = j.siguiente
+                #pasa al siguiente dato de la lista
                 i = i.siguiente
-'''
