@@ -90,6 +90,7 @@ def cargarArchivo():
         #listaCompuestos.imprimirCompuesto()
         #print("Lista de maquinas")
         #listaMaquinas.imprimirMaquinas()
+        listaElementos.ordenamientoBurbuja()
     else :
         print("canceló la opción\n")
 
@@ -181,6 +182,7 @@ def gestionarElemento():
         nombre_1 = str(entradaNombre.get())
 
         #obteniendo datos y compararlos con los datos ingresados por el usuario 
+        
         bolleanoElementosRepetidos = listaElementos.validarRepetidos(int(numeroAtomico_1), simbolo_1.strip(), nombre_1.strip())
         
         #si los datos ingresados son iguales a los que existen en la tabla entonces indicar un mensaje de no ingresar datos repetidos
@@ -190,7 +192,7 @@ def gestionarElemento():
             auxObjetoElemento = Elemento(int(numeroAtomico_1), simbolo_1 , nombre_1 )
             listaElementos.insertarFinal(auxObjetoElemento)
             showinfo(title="Guardado", message="Datos almacenados correctamente")
-        
+            listaElementos.ordenamientoBurbuja()
     tk.Button(gestionar_El, text="Agregar", width=15, anchor="c", bg="orange", fg="black", font=("Arial Black", 10), command=lambda: agregarElementoQ()).place(x=160, y=485)
     tk.Button(gestionar_El, text="Regresar", width=15, anchor="c", bg="red", fg="black", font=("Arial Black", 10), command=lambda: regresarGestionarEaMenu()).place(x=430, y=450)
     
