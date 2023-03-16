@@ -39,7 +39,6 @@ class Lista:
         if self.primero ==None:
             return False
     
-    
     #METODOS PARA LISTA ELEMENTOS    
     def ObtenerElementos(self, recibiendoCONT):
         contador = 0
@@ -49,7 +48,6 @@ class Lista:
             contador +=1
             if contador == recibiendoCONT:
                 return nodoTemporal.dato
-            #print(str(nodoTemporal.dato.getElementoNumAtomico() )+"    |"+ nodoTemporal.dato.getElementoSimbolo() +"    |" + nodoTemporal.dato.getElementoNombreElemento())
             nodoTemporal = nodoTemporal.siguiente 
     def validarRepetidos(self, numeroAtomico_1, simbolo_1, nombre_1):
         nodoTemporal = Nodo("")
@@ -87,7 +85,6 @@ class Lista:
                 #pasa al siguiente dato de la lista
                 i = i.siguiente
 
-    
     #METODOS PARA LISTA MAQUINAS
         #IMPRIMIR LISTA MAQUINAS
     def imprimirMaquinas(self):
@@ -117,7 +114,16 @@ class Lista:
         while nodoTemporal != None:
             print(nodoTemporal.dato.elementoSimbolo)
             nodoTemporal = nodoTemporal.siguiente      
-    
+        #Obtener Lista Compuestos
+    def ObtenerMaquinas(self, recibiendoCont):
+        contador = 0
+        nodoTemporal = Nodo("")
+        nodoTemporal = self.primero
+        while nodoTemporal != None:
+            contador +=1
+            if contador == recibiendoCont:
+                return nodoTemporal.dato
+            nodoTemporal = nodoTemporal.siguiente    
     
     #METODOS PARA LISTA COMPUESTOS
         #Obtener Lista Compuestos
