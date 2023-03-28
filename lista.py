@@ -88,23 +88,18 @@ class Lista:
     #METODOS PARA LISTA MAQUINAS
         #IMPRIMIR LISTA MAQUINAS
     def imprimirMaquinas(self):
-        contador = 0
         nodoTemporal = Nodo("")
         nodoTemporal = self.primero
         while nodoTemporal != None:
-            contador +=1
             auxiliar =nodoTemporal.dato.listaPinMaquina
             print(nodoTemporal.dato.nombreMaquina + "    |" + str(nodoTemporal.dato.numeroPinesMaquina) +"    |" + str(nodoTemporal.dato.numeroElementosMaquina))
-            #print(" Lista Pin")
+            print(" Lista Pin")
             auxiliar.imprimirListaPin()
             nodoTemporal = nodoTemporal.siguiente
     def imprimirListaPin(self):
-        contador = 0
         nodoTemporal = Nodo("")
         nodoTemporal = self.primero
         while nodoTemporal != None:
-            contador +=1
-            #print("pin" + str(contador))
             auxiliar =nodoTemporal.dato.listaelementoPin
             auxiliar.imprimirListaPinElemento()
             nodoTemporal = nodoTemporal.siguiente
