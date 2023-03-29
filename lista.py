@@ -96,13 +96,16 @@ class Lista:
             print(" Lista Pin")
             auxiliar.imprimirListaPin()
             nodoTemporal = nodoTemporal.siguiente
+
     def imprimirListaPin(self):
         nodoTemporal = Nodo("")
         nodoTemporal = self.primero
         while nodoTemporal != None:
             auxiliar =nodoTemporal.dato.listaelementoPin
+            print("Pin")
             auxiliar.imprimirListaPinElemento()
             nodoTemporal = nodoTemporal.siguiente
+            
     def imprimirListaPinElemento(self):
         nodoTemporal = Nodo("")
         nodoTemporal = self.primero

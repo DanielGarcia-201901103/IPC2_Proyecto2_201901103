@@ -265,7 +265,7 @@ def gestionarCompuesto():
         tablaDinamica1.place(x = 20 , y = 20 , height= 310 )
 
         ''' 
-        a. Ver listado de compuestos y sus fórmulas
+        
         b. Analizar compuesto
             i. Seleccionar un compuesto
             ii. Ver listado de máquinas y tiempos necesarios para producir el
@@ -284,10 +284,56 @@ def gestionarCompuesto():
         entradaNombreCompu= tk.StringVar()
         entrada_NombreCompu = ttk.Entry(gestionar_Comp, textvariable = entradaNombreCompu, width=25).place(x=190, y=420)
 
+        def obteniendoSeleccion():
+            try:
+                nameCompuesto = str(entradaNombreCompu.get())
+                return nameCompuesto
+            except Exception as e:
+                showwarning(title="Advertencia", message="No ha seleccionado ningún compuesto.")
         def verListadoMaquinasTiempos():
-            pass
+            datoObtenido = obteniendoSeleccion()
+            '''
+            cada pin de la maquina puede realizar las siguientes funciones
+            moverse hacia adelante
+            moverse hacia atras
+            esperar
+            fusionar elemento quimico
+
+            restricciones de la maquina para crear compuestos
+            Solo puede fusionar un elemento quimico a la vez
+            solo debe contener una vez cada elemento quimico
+
+            b. Analizar compuesto
+            i. Seleccionar un compuesto
+            ii. Ver listado de máquinas y tiempos necesarios para 
+                producir el compuesto
+            iii. Ver gráficamente (utilizando Graphiz) el listado 
+                de instrucciones conm que una máquina puede producir
+                el compuesto
+            Algoritmo
+            1. Seleccionar el compuesto de la tabla.
+            2. Obtener el primer elemento del compuesto.
+            3. Buscar el elemento en los pines de la maquina
+                3.0 validar si es estado inicial entonces mover hacia adelante
+                en todos los pines.
+                    3.0.1 aumentar en una unidad el segundo.
+                    3.0.2 verificar si existe coincidencia del elemento entre los
+                    pines.
+                        3.0.2.1 Si no coincide mover hacia adelante en todos los 
+                        pines al mismo tiempo y volver a validar coincidencia
+                        3.0.2.2 Si coincide en uno de los pines, entonces
+                        Esperar en los otros pines, y al mismo tiempo que Espera
+                        fusionar elemento.
+                3.1 si no es igual a estado inicial entonces buscar hacia atras y adelante
+                    si existe coincidencia de elementos en los pines.
+                    3.1.1 si existe coincidencia entonces aumentar un segundo, fusionar elemento
+                    y que los demas elementos esperen 
+            3.3 Eliminar el primer elemento de la lista de compuesto.
+            4. repetir el paso 3
+
+            '''
         def verInstruccionesGraficas():
-            pass
+            datoObtenido = obteniendoSeleccion()
         def regresarGestionarCaMenu():
                 gestionar_Comp.withdraw()
                 menu.iconify()
@@ -303,11 +349,10 @@ def gestionarCompuesto():
 
 def gestionarMaquinas():
     if listaMaquinas.estaVacia() == True:
-        #a. Listado de máquinas
         menu.withdraw()  # cierra la ventana principal
         gestionar_Maq = tk.Toplevel()
         gestionar_Maq.title("Gestionar Maquinas")
-        gestionar_Maq.geometry("600x545")
+        gestionar_Maq.geometry("600x500")
         gestionar_Maq.configure(bg="lightgreen")
         gestionar_Maq.resizable(False, False)
 
@@ -354,47 +399,10 @@ def gestionarMaquinas():
             iterador +=1
         tablaDinamica3.place(x = 20 , y = 20 , width= 545, height= 310 )
 
-        tk.Label(gestionar_Maq, text="Listado de Pin", bg="#000000", fg="#FFFFFF",width= 40, font=("Arial", 13)).place(x= 0, y= 350)
-        tk.Label(gestionar_Maq, text="", bg="#000000", fg="#FFFFFF",width= 40, font=("Arial", 13)).place(x= 0, y= 520)
-        tk.Label(gestionar_Maq, text="", bg="#000000", fg="#FFFFFF",height= 10,width= 2, font=("Arial", 13)).place(x= 360, y= 350)
-        tk.Label(gestionar_Maq, text="", bg="#000000", fg="#FFFFFF",height= 10,width= 2, font=("Arial", 13)).place(x= 0, y= 350)
-        tk.Label(gestionar_Maq, text="Ingrese el No. que corresponde a la maquina:", bg="lightgreen", fg="black", font=("Calibri", 13)).place(x=30, y=390)
-        #tk.Label(gestionar_Maq, text="No:", bg="lightgreen", fg="black", font=("Calibri", 13)).place(x=30, y=420)
-
-        #CUADROS DE ENTRADA DE TEXTO
-        entradaNumero= tk.StringVar()
-        entrada_Numero = ttk.Entry(gestionar_Maq, textvariable = entradaNumero, width=30).place(x=100, y=420)
-
-
-        def seleccionarMaquina():
-            #cuando elija un numero que corresponda a la maquina mostrará la lista de elementos de cada pin
-            #buscar = int(entradaNumero.get())
-            busc = tablaDinamica3.selection()[0]
-            print(busc)
-            #hay que recorrer nuevamente los datos para obtener
-            
-            gestionar_Maq.withdraw()  # cierra la ventana 
-            listarPin_Maq = tk.Toplevel()
-            listarPin_Maq.title("Lista Pin")
-            listarPin_Maq.geometry("600x545")
-            listarPin_Maq.configure(bg="lightgreen")
-            listarPin_Maq.resizable(False, False)
-            
-            
-            def regresarLPaGMa():
-                listarPin_Maq.withdraw()
-                gestionar_Maq.iconify()
-                gestionar_Maq.deiconify()
-
-            tk.Button(listarPin_Maq, text="Regresar", width=15, anchor="c", bg="red", fg="black", font=(
-                "Arial Black", 10), command=lambda: regresarLPaGMa()).place(x=430, y=450)
-            listarPin_Maq.mainloop()
-            
         def regresarGestionarMaMenu():
                 gestionar_Maq.withdraw()
                 menu.iconify()
                 menu.deiconify()
-        tk.Button(gestionar_Maq, text="Ver Lista Pin", width=15, anchor="c", bg="orange", fg="black", font=("Arial Black", 10), command=lambda:    seleccionarMaquina()).place(x=120, y=450)
         tk.Button(gestionar_Maq, text="Regresar", width=15, anchor="c", bg="red", fg="black", font=(
                 "Arial Black", 10), command=lambda: regresarGestionarMaMenu()).place(x=430, y=450)
         gestionar_Maq.mainloop()
