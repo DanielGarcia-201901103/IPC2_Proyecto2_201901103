@@ -275,7 +275,7 @@ def gestionarCompuesto():
 
         tk.Label(gestionar_Comp, text="Analizar Compuesto", bg="#000000", fg="#FFFFFF",width= 40, font=("Arial", 13)).place(x= 0, y= 350)
         tk.Label(gestionar_Comp, text="", bg="#000000", fg="#FFFFFF",width= 40, font=("Arial", 13)).place(x= 0, y= 520)
-        tk.Label(gestionar_Comp, text="", bg="#000000", fg="#FFFFFF",height= 10,width= 2, font=("Arial", 13)).place(x= 360, y= 350)
+        tk.Label(gestionar_Comp, text="", bg="#000000", fg="#FFFFFF",height= 10,width= 2, font=("Arial", 13)).place(x= 350, y= 350)
         tk.Label(gestionar_Comp, text="", bg="#000000", fg="#FFFFFF",height= 10,width= 2, font=("Arial", 13)).place(x= 0, y= 350)
         tk.Label(gestionar_Comp, text="Seleccionar Compuesto", bg="lightgreen", fg="black", font=("Arial Black", 13)).place(x=75, y=385)
         tk.Label(gestionar_Comp, text="Nombre Compuesto:", bg="lightgreen", fg="black", font=("Calibri", 13)).place(x=30, y=415)
@@ -287,12 +287,37 @@ def gestionarCompuesto():
         def obteniendoSeleccion():
             try:
                 nameCompuesto = str(entradaNombreCompu.get())
-                return nameCompuesto
+                realizarInstruccion(nameCompuesto)
             except Exception as e:
                 showwarning(title="Advertencia", message="No ha seleccionado ningún compuesto.")
         def verListadoMaquinasTiempos():
-            datoObtenido = obteniendoSeleccion()
-            '''
+            "crear tabla "
+            
+        def verInstruccionesGraficas():
+            "usar graphviz"
+
+        def regresarGestionarCaMenu():
+                gestionar_Comp.withdraw()
+                menu.iconify()
+                menu.deiconify()
+
+        tk.Button(gestionar_Comp, text="Seleccionar", width=15, anchor="c", bg="orange", fg="black", font=("Arial Black", 10), command=lambda: obteniendoSeleccion()).place(x=110, y=460)
+        tk.Button(gestionar_Comp, text="Ver listado maquinas y tiempos", width=35, anchor="c", bg="orange", fg="black", font=("Arial Black", 10), command=lambda: verListadoMaquinasTiempos()).place(x=415, y=400)
+        tk.Button(gestionar_Comp, text="Ver instrucciones graficas", width=35, anchor="c", bg="orange", fg="black", font=("Arial Black", 10), command=lambda: verInstruccionesGraficas()).place(x=415, y=450)
+        tk.Button(gestionar_Comp, text="Regresar", width=15, anchor="c", bg="red", fg="black", font=("Arial Black", 10), command=lambda: regresarGestionarCaMenu()).place(x=600, y=500)
+        gestionar_Comp.mainloop()
+    elif listaCompuestos.estaVacia() == False:
+        showwarning(title="Advertencia", message="Porfavor primero cargue un archivo.")
+
+def realizarInstruccion(nameCompuesto):
+    compuestoBuscar = nameCompuesto
+    auxiliarListaElemento =listaCompuestos.buscarCompuesto(compuestoBuscar)
+    iterador = 1
+    while iterador <= auxiliarListaElemento.obtenerSize():
+        cElemento = auxiliarListaElemento.ObtenerCompuestos(iterador)
+        print(str(cElemento.compuestoSimboloElemento))
+        iterador +=1
+    '''
             cada pin de la maquina puede realizar las siguientes funciones
             moverse hacia adelante
             moverse hacia atras
@@ -332,21 +357,6 @@ def gestionarCompuesto():
             4. repetir el paso 3
 
             '''
-        def verInstruccionesGraficas():
-            datoObtenido = obteniendoSeleccion()
-        def regresarGestionarCaMenu():
-                gestionar_Comp.withdraw()
-                menu.iconify()
-                menu.deiconify()
-
-
-        tk.Button(gestionar_Comp, text="Ver listado maquinas y tiempos", width=35, anchor="c", bg="orange", fg="black", font=("Arial Black", 10), command=lambda: verListadoMaquinasTiempos()).place(x=30, y=450)
-        tk.Button(gestionar_Comp, text="Ver instrucciones graficas", width=35, anchor="c", bg="orange", fg="black", font=("Arial Black", 10), command=lambda: verInstruccionesGraficas()).place(x=30, y=485)
-        tk.Button(gestionar_Comp, text="Regresar", width=15, anchor="c", bg="red", fg="black", font=("Arial Black", 10), command=lambda: regresarGestionarCaMenu()).place(x=430, y=450)
-        gestionar_Comp.mainloop()
-    elif listaCompuestos.estaVacia() == False:
-        showwarning(title="Advertencia", message="Porfavor primero cargue un archivo.")
-
 def gestionarMaquinas():
     if listaMaquinas.estaVacia() == True:
         menu.withdraw()  # cierra la ventana principal

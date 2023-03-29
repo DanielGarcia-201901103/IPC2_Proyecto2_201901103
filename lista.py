@@ -105,7 +105,7 @@ class Lista:
             print("Pin")
             auxiliar.imprimirListaPinElemento()
             nodoTemporal = nodoTemporal.siguiente
-            
+
     def imprimirListaPinElemento(self):
         nodoTemporal = Nodo("")
         nodoTemporal = self.primero
@@ -133,7 +133,14 @@ class Lista:
             contador +=1
             if contador == recibiendoCont:
                 return nodoTemporal.dato
-            #print(str(nodoTemporal.dato.getElementoNumAtomico() )+"    |"+ nodoTemporal.dato.getElementoSimbolo() +"    |" + nodoTemporal.dato.getElementoNombreElemento())
+            nodoTemporal = nodoTemporal.siguiente
+
+    def buscarCompuesto(self, busqueda):
+        nodoTemporal = Nodo("")
+        nodoTemporal = self.primero
+        while nodoTemporal != None:
+            if nodoTemporal.dato.nombreCompuesto == busqueda:
+                return nodoTemporal.dato.listaElementosCompuesto
             nodoTemporal = nodoTemporal.siguiente
         #IMPRIMIR LISTA COMPUESTOS
     def imprimirCompuesto(self):
