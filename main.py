@@ -287,7 +287,7 @@ def gestionarCompuesto():
         def obteniendoSeleccion():
             try:
                 nameCompuesto = str(entradaNombreCompu.get())
-                realizarInstruccion(nameCompuesto)
+                realizarInstruccion(nameCompuesto.lower())
             except Exception as e:
                 showwarning(title="Advertencia", message="No ha seleccionado ningún compuesto.")
         def verListadoMaquinasTiempos():
@@ -310,12 +310,37 @@ def gestionarCompuesto():
         showwarning(title="Advertencia", message="Porfavor primero cargue un archivo.")
 
 def realizarInstruccion(nameCompuesto):
+    contadorSegundos = 0
     compuestoBuscar = nameCompuesto
     auxiliarListaElemento =listaCompuestos.buscarCompuesto(compuestoBuscar)
     iterador = 1
     while iterador <= auxiliarListaElemento.obtenerSize():
         cElemento = auxiliarListaElemento.ObtenerCompuestos(iterador)
+
         print(str(cElemento.compuestoSimboloElemento))
+        iterador1 = 1
+        while iterador1 <= listaMaquinas.obtenerSize():
+            auxiliarM = listaMaquinas.ObtenerMaquinas(iterador1)
+            auxiliarPines = auxiliarM.listaPinMaquina
+            iterador2 =1
+            while iterador2 <= auxiliarPines.obtenerSize():
+                auxiliarElementos = auxiliarPines.ObtenerMaquinas(iterador2)
+                elementosAux =auxiliarElementos.listaelementoPin
+                #print("Pin")
+                iterador3 =1
+                while iterador3 <= elementosAux.obtenerSize():
+                    el = elementosAux.ObtenerMaquinas(iterador3)
+                    #print(el.elementoSimbolo)
+                    if str(cElemento.compuestoSimboloElemento) ==el.elementoSimbolo:
+                        print("Fusionar")
+                        print(el.elementoSimbolo)
+                    else: 
+                        print("mover")
+                    iterador3 +=1
+                iterador2 +=1
+            iterador1 +=1
+        #quitar los whiles y obtener la cantidad de pines de la maquina para recorrer el primer pin y segundo pin como primera iteracion
+        contadorSegundos +=1
         iterador +=1
     '''
             cada pin de la maquina puede realizar las siguientes funciones
@@ -328,8 +353,6 @@ def realizarInstruccion(nameCompuesto):
             Solo puede fusionar un elemento quimico a la vez
             solo debe contener una vez cada elemento quimico
 
-            b. Analizar compuesto
-            i. Seleccionar un compuesto
             ii. Ver listado de máquinas y tiempos necesarios para 
                 producir el compuesto
             iii. Ver gráficamente (utilizando Graphiz) el listado 

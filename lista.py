@@ -139,7 +139,7 @@ class Lista:
         nodoTemporal = Nodo("")
         nodoTemporal = self.primero
         while nodoTemporal != None:
-            if nodoTemporal.dato.nombreCompuesto == busqueda:
+            if nodoTemporal.dato.nombreCompuesto.lower() == busqueda.lower():
                 return nodoTemporal.dato.listaElementosCompuesto
             nodoTemporal = nodoTemporal.siguiente
         #IMPRIMIR LISTA COMPUESTOS
