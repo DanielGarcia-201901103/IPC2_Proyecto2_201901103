@@ -319,19 +319,22 @@ def realizarInstruccion(nameCompuesto):
 
         print(str(cElemento.compuestoSimboloElemento))
         iterador1 = 1
+        print("cantidad maquinas:"+ str(listaMaquinas.obtenerSize()))
         while iterador1 <= listaMaquinas.obtenerSize():
             auxiliarM = listaMaquinas.ObtenerMaquinas(iterador1)
             auxiliarPines = auxiliarM.listaPinMaquina
             iterador2 =1
+            print("Cantidad Pines:"+str(auxiliarPines.obtenerSize()))
             while iterador2 <= auxiliarPines.obtenerSize():
                 auxiliarElementos = auxiliarPines.ObtenerMaquinas(iterador2)
                 elementosAux =auxiliarElementos.listaelementoPin
                 #print("Pin")
                 iterador3 =1
+                print("cantidad elementos:"+str(elementosAux.obtenerSize()))
                 while iterador3 <= elementosAux.obtenerSize():
                     el = elementosAux.ObtenerMaquinas(iterador3)
                     #print(el.elementoSimbolo)
-                    if str(cElemento.compuestoSimboloElemento) ==el.elementoSimbolo:
+                    if str(cElemento.compuestoSimboloElemento) == el.elementoSimbolo:
                         print("Fusionar")
                         print(el.elementoSimbolo)
                     else: 

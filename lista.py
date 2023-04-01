@@ -123,6 +123,18 @@ class Lista:
                 return nodoTemporal.dato
             nodoTemporal = nodoTemporal.siguiente    
     
+    def moverAdelante(self, actual):
+        nodoTemporal = Nodo("")
+        nodoTemporal = actual
+        return nodoTemporal.siguiente 
+    def moverAtras(self,actual):
+        nodoTemporal = Nodo("")
+        nodoTemporal = actual
+        return nodoTemporal.siguiente 
+    def esperar(self):
+        pass
+    def fusionar(self):
+        pass
     #METODOS PARA LISTA COMPUESTOS
         #Obtener Lista Compuestos
     def ObtenerCompuestos(self, recibiendoCont):
