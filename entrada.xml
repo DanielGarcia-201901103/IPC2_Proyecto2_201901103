@@ -67,16 +67,16 @@
             <numeroElementos>24</numeroElementos>
             <pin>
                 <elementos>
-                    <elemento>Li</elemento>
-                    <elemento>C</elemento>
+                    <elemento>N</elemento>
                     <elemento>He</elemento>
+                    <elemento>Li</elemento>
                     <!-- ... -->
                 </elementos>
             </pin>
             <pin>
                 <elementos>
                     <elemento>Be</elemento>
-                    <elemento>N</elemento>
+                    <elemento>C</elemento>
                     <elemento>H</elemento>
                     <!-- ... -->
                 </elementos>

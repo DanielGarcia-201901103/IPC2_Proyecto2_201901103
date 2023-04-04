@@ -121,20 +121,26 @@ class Lista:
             contador +=1
             if contador == recibiendoCont:
                 return nodoTemporal.dato
-            nodoTemporal = nodoTemporal.siguiente    
+            nodoTemporal = nodoTemporal.siguiente
+                
+    def obtenerValor(self, valor):
+        nodoTemporal = valor
+        return nodoTemporal.dato
     
+    def inicio(self):
+        nodoTemporal = Nodo("")
+        nodoTemporal = self.primero
+        return nodoTemporal
+        
     def moverAdelante(self, actual):
-        nodoTemporal = Nodo("")
         nodoTemporal = actual
-        return nodoTemporal.siguiente 
+        nodoTemporal = nodoTemporal.siguiente
+        return nodoTemporal
+    
     def moverAtras(self,actual):
-        nodoTemporal = Nodo("")
         nodoTemporal = actual
-        return nodoTemporal.siguiente 
-    def esperar(self):
-        pass
-    def fusionar(self):
-        pass
+        nodoTemporal = nodoTemporal.anterior
+        return nodoTemporal
     #METODOS PARA LISTA COMPUESTOS
         #Obtener Lista Compuestos
     def ObtenerCompuestos(self, recibiendoCont):
