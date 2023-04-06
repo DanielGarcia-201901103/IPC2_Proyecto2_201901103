@@ -317,6 +317,8 @@ def cantidadPines(auxiliarElementos, estado, cElemento):
     #print("cantidad elementos:"+str(elementosAux.obtenerSize()))
     # Bucle para recorrer la lista de elementos dentro del Pin
     while iterador3 <= elementosAux.obtenerSize():
+        #
+
         el = elementosAux.ObtenerMaquinas(iterador3)
         #print(el.elementoSimbolo)
         contadorSegundos += 1
@@ -353,6 +355,7 @@ def realizarInstruccion(nameCompuesto):
                 contadorSegundos +=1
                 print("Estado Inicial")
                 estado = "Segundo "+str(contadorSegundos)
+                print(moverAdelante * auxiliarPines.obtenerSize())
                 iterador1 = 1
             elif estado != "Estado Inicial":
                 #Buscar el elemento del compuesto en los pines de la maquina
