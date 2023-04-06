@@ -13,7 +13,7 @@ import webbrowser
 listaElementos = Lista()
 listaMaquinas = Lista()
 listaCompuestos = Lista()
-
+contadorSegundos = 0
 def cargarArchivo():
     #usando element tree
     
@@ -309,19 +309,19 @@ def gestionarCompuesto():
     elif listaCompuestos.estaVacia() == False:
         showwarning(title="Advertencia", message="Porfavor primero cargue un archivo.")
 
-def cantidadPines(auxiliarPines, iterador2, estado, cElemento, contadorSegundos):
-    #Obtiene cada uno de los pines
-    auxiliarElementos = auxiliarPines.ObtenerMaquinas(iterador2)
+def cantidadPines(auxiliarElementos, estado, cElemento):
+    global contadorSegundos
     #Obtiene la lista de elementos que contiene el pin
     elementosAux =auxiliarElementos.listaelementoPin
-    print("Pin"+ str(iterador2))
     iterador3 =1
     #print("cantidad elementos:"+str(elementosAux.obtenerSize()))
     # Bucle para recorrer la lista de elementos dentro del Pin
     while iterador3 <= elementosAux.obtenerSize():
         el = elementosAux.ObtenerMaquinas(iterador3)
         #print(el.elementoSimbolo)
-        print(str(contadorSegundos))
+        contadorSegundos += 1
+        estado = "Segundo " + str(contadorSegundos)
+        print(estado)
         if str(cElemento.compuestoSimboloElemento) == el.elementoSimbolo:
             print(fusionar + str(el.elementoSimbolo))
         elif str(cElemento.compuestoSimboloElemento) != el.elementoSimbolo: 
@@ -329,42 +329,46 @@ def cantidadPines(auxiliarPines, iterador2, estado, cElemento, contadorSegundos)
         iterador3 +=1
         
 def realizarInstruccion(nameCompuesto):
+    global contadorSegundos
     estado = "Estado Inicial"
     contadorSegundos = 0
     compuestoBuscar = nameCompuesto
     #Obteniendo la lista del compuesto elegido por el usuario
     auxiliarListaElemento = listaCompuestos.buscarCompuesto(compuestoBuscar)
     iterador = 1
-
-    # Bucle para recorrer la lista del compuesto a realizar con la maquina
-    while iterador <= auxiliarListaElemento.obtenerSize():
-        #Obtiene el elemento del compuesto elegido
-        cElemento = auxiliarListaElemento.ObtenerCompuestos(iterador)
-        #print(str(cElemento.compuestoSimboloElemento))
-        if estado == "Estado Inicial":
-            # Iniciar con la cuenta y posiciones iniciales
-            contadorSegundos +=1
-            print("Estado Inicial")
-            print("Pines")
-            estado = "Segundo "+str(contadorSegundos)
-        elif estado != "Estado Inicial":
-            #Buscar el elemento del compuesto en los pines de la maquina
-            #Avanzar el primer elemento de todos los pines de la maquina
-            iterador1 = 1
-            # Bucle para recorrer la lista de maquinas
-            while iterador1 <= listaMaquinas.obtenerSize():
-                #Obtiene cada una de las maquinas
-                auxiliarM = listaMaquinas.ObtenerMaquinas(iterador1)
-                #Obtiene la lista de pines dentro de la maquina
-                auxiliarPines = auxiliarM.listaPinMaquina
+    # Bucle para recorrer la lista de maquinas
+    while iterador <= listaMaquinas.obtenerSize():
+        #Obtiene cada una de las maquinas
+        auxiliarM = listaMaquinas.ObtenerMaquinas(iterador)
+        #Obtiene la lista de pines dentro de la maquina
+        auxiliarPines = auxiliarM.listaPinMaquina
+        iterador1 = 1
+        # Bucle para recorrer la lista del compuesto a realizar con la maquina
+        while iterador1 <= auxiliarListaElemento.obtenerSize():
+            #Obtiene el elemento del compuesto elegido
+            cElemento = auxiliarListaElemento.ObtenerCompuestos(iterador1)
+            #print(str(cElemento.compuestoSimboloElemento))
+            if estado == "Estado Inicial":
+                # Iniciar con la cuenta y posiciones iniciales
+                contadorSegundos +=1
+                print("Estado Inicial")
+                estado = "Segundo "+str(contadorSegundos)
+                iterador1 = 1
+            elif estado != "Estado Inicial":
+                #Buscar el elemento del compuesto en los pines de la maquina
+                #Avanzar el primer elemento de todos los pines de la maquina
                 iterador2 =1
                 #print("Cantidad Pines:"+str(auxiliarPines.obtenerSize()))
                 # Bucle para recorrer la lista de pines dentro de la maquina 
                 while iterador2 <= auxiliarPines.obtenerSize():
-                    cantidadPines(auxiliarPines, iterador2, estado, cElemento, contadorSegundos)
-                    iterador2 +=1
+                    #Obtiene cada uno de los pines
+                    auxiliarElementos = auxiliarPines.ObtenerMaquinas(iterador2)
+                    print("Pin"+ str(iterador2))
+                    cantidadPines(auxiliarElementos, estado, cElemento)
+                    iterador2 +=2
                 iterador1 +=1
         iterador +=1
+        break
     '''
             cada pin de la maquina puede realizar las siguientes funciones
             moverse hacia adelante
