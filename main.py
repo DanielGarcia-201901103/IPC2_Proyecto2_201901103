@@ -474,7 +474,7 @@ def gestionarMaquinas():
 
 def documentacion():
     #cambiar la direccion del archivo para que se abra la documentacion de este proyecto
-    pathTecnico = "Documentacion\FtoArticuloEnsayo-IPC2-lab.pdf" 
+    pathTecnico = "Documentacion\documentacion.pdf" 
     webbrowser.open_new(pathTecnico)
 
 def info():
