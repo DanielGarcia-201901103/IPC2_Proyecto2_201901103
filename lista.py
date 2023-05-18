@@ -56,9 +56,9 @@ class Lista:
         while nodoTemporal != None:
             if (str(nodoTemporal.dato.getElementoNumAtomico()) == str(numeroAtomico_1)):
                 booleanoValidador = True
-            if(nodoTemporal.dato.getElementoSimbolo().strip() == simbolo_1.strip()):
+            if(nodoTemporal.dato.getElementoSimbolo().strip().lower() == simbolo_1.strip().lower()):
                 booleanoValidador = True
-            if(nodoTemporal.dato.getElementoNombreElemento().strip() == nombre_1.strip()):
+            if(nodoTemporal.dato.getElementoNombreElemento().strip().lower() == nombre_1.strip().lower()):
                 booleanoValidador = True
             nodoTemporal = nodoTemporal.siguiente  
         return booleanoValidador 

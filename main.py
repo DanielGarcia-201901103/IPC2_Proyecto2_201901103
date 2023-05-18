@@ -192,7 +192,7 @@ def gestionarElemento():
 
                 #obteniendo datos y compararlos con los datos ingresados por el usuario 
 
-                bolleanoElementosRepetidos = listaElementos.validarRepetidos(int(numeroAtomico_1), simbolo_1.strip(), nombre_1.strip())
+                bolleanoElementosRepetidos = listaElementos.validarRepetidos(int(numeroAtomico_1), simbolo_1.strip().lower(), nombre_1.strip().lower())
 
                 #si los datos ingresados son iguales a los que existen en la tabla entonces indicar un mensaje de no ingresar datos repetidos
                 if bolleanoElementosRepetidos == True:
